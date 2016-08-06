@@ -16,14 +16,14 @@ class DateManagerTest extends TestCase{
   var $invalidBigDate;
   var $currentDate;
   var $validDateOne;
-  var $valieDateTwo;
+  var $validDateTwo;
 
   public function setUp(){
     $this->invalidOldDate = DateTime::createFromFormat(self::FORMAT,'1900-12-24');
     $this->invalidBigDate = DateTime::createFromFormat(self::FORMAT,'3000-12-24');
     $this->currentDate = (new DateTime())->format(self::FORMAT);
     $this->validDateOne = DateTime::createFromFormat(self::FORMAT,'2016-12-24');
-    $this->valieDateTwo = DateTime::createFromFormat(self::FORMAT,'2016-12-25');
+    $this->validDateTwo = DateTime::createFromFormat(self::FORMAT,'2016-12-25');
 
     $this->dateManager = new DateManager(self::MAXDATE, self::FORMAT);
   }
@@ -53,13 +53,13 @@ class DateManagerTest extends TestCase{
      }
 
       public function testFirstDateIsMinorThanSecondDate(){
-        $result = $this->dateManager->dateIsMinorThanOtherDate($this->validDateOne, $this->valieDateTwo);
+        $result = $this->dateManager->dateIsMinorThanOtherDate($this->validDateOne, $this->validDateTwo);
 
         $this->assertEquals(true,$result);
       }
 
       public function testFirstDateIsNotMinorThanSecondDate(){
-        $result = $this->dateManager->dateIsMinorThanOtherDate($this->valieDateTwo, $this->validDateOne);
+        $result = $this->dateManager->dateIsMinorThanOtherDate($this->validDateTwo, $this->validDateOne);
 
         $this->assertEquals(false,$result);
       }
@@ -88,13 +88,48 @@ class DateManagerTest extends TestCase{
         $result = $this->dateManager->dateRangeIsValid($this->invalidBigDate, $this->invalidOldDate);
         $this->assertEquals(false,$result);
 
-        $result = $this->dateManager->dateRangeIsValid($this->valieDateTwo, $this->validDateOne);
+        $result = $this->dateManager->dateRangeIsValid($this->validDateTwo, $this->validDateOne);
         $this->assertEquals(false,$result);
 
-        $result = $this->dateManager->dateRangeIsValid($this->validDateOne, $this->valieDateTwo);
+        $result = $this->dateManager->dateRangeIsValid($this->validDateOne, $this->validDateTwo);
         $this->assertEquals(true,$result);
 
         $result = $this->dateManager->dateRangeIsValid($this->validDateOne, $this->validDateOne);
+        $this->assertEquals(false,$result);
+      }
+
+      public function testDayIsInInterval(){
+        $result = $this->dateManager->dateIsInInterval($this->validDateOne, $this->invalidOldDate, $this->invalidBigDate);
+        $this->assertEquals(true,$result);
+      }
+
+      public function testDayIsInIntervalInclusiveInitial(){
+        $result = $this->dateManager->dateIsInInterval($this->validDateOne, $this->validDateOne, $this->validDateTwo);
+        $this->assertEquals(true,$result);
+      }
+
+      public function testDayIsInIntervalInclusiveFinal(){
+        $result = $this->dateManager->dateIsInInterval($this->validDateTwo, $this->validDateOne, $this->validDateTwo);
+        $this->assertEquals(true,$result);
+      }
+
+      public function testBeforeDayIsNotInInterval(){
+        $result = $this->dateManager->dateIsInInterval($this->invalidOldDate, $this->validDateOne, $this->validDateTwo);
+        $this->assertEquals(false,$result);
+      }
+
+      public function testAfterDayIsNotInInterval(){
+        $result = $this->dateManager->dateIsInInterval($this->invalidBigDate, $this->validDateOne, $this->validDateTwo);
+        $this->assertEquals(false,$result);
+      }
+
+      public function testCurrentDayIsInInterval(){
+        $result = $this->dateManager->todayIsInInterval($this->invalidOldDate, $this->invalidBigDate);
+        $this->assertEquals(true,$result);
+      }
+
+      public function testCurrentDayIsNotInInterval(){
+        $result = $this->dateManager->todayIsInInterval($this->invalidOldDate, $this->invalidOldDate);
         $this->assertEquals(false,$result);
       }
 }

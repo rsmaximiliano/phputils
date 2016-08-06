@@ -52,4 +52,12 @@ class DateManager{
       return false;
     return true;
   }
+
+  function dateIsInInterval($date, $start, $final){
+    return ($date >= $start) && ($date <= $final);
+  }
+
+  function todayIsInInterval($start, $final){
+    return ($this->getCurrentDate() >= $start) && ($this->getCurrentDate() <= $final);
+  }
 }
