@@ -19,12 +19,11 @@ class DateManagerTest extends TestCase{
   var $valieDateTwo;
 
   public function setUp(){
-    $this->invalidOldDate = (new DateTime('1900-12-24'))->format(self::FORMAT);
-    $this->invalidBigDate = (new DateTime('3000-12-24'))->format(self::FORMAT);
+    $this->invalidOldDate = DateTime::createFromFormat(self::FORMAT,'1900-12-24');
+    $this->invalidBigDate = DateTime::createFromFormat(self::FORMAT,'3000-12-24');
     $this->currentDate = (new DateTime())->format(self::FORMAT);
-    $this->validDateOne = (new DateTime('2016-12-24'))->format(self::FORMAT);
-    $this->valieDateTwo = (new DateTime('2016-12-25'))->format(self::FORMAT);
-    $this->dateManager = new DateManager();
+    $this->validDateOne = DateTime::createFromFormat(self::FORMAT,'2016-12-24');
+    $this->valieDateTwo = DateTime::createFromFormat(self::FORMAT,'2016-12-25');
 
     $this->dateManager = new DateManager(self::MAXDATE, self::FORMAT);
   }
