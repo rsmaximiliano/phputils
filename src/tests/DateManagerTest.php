@@ -8,9 +8,8 @@ include 'src\model\DateManager.php';
 
 class DateManagerTest extends TestCase{
 
-  //const FORMAT = 'Y-m-d';
-  const FORMAT = 'm-d-Y';
-  const MAXDATE = '12-24-2200';
+  const FORMAT = 'Y-m-d';
+  const MAXDATE = '2200-12-24';
 
   var $dateManager;
   var $invalidOldDate;
@@ -20,18 +19,12 @@ class DateManagerTest extends TestCase{
   var $valieDateTwo;
 
   public function setUp(){
-    /*$this->invalidOldDate = (new DateTime('1900-12-24'))->format(self::FORMAT);
+    $this->invalidOldDate = (new DateTime('1900-12-24'))->format(self::FORMAT);
     $this->invalidBigDate = (new DateTime('3000-12-24'))->format(self::FORMAT);
     $this->currentDate = (new DateTime())->format(self::FORMAT);
     $this->validDateOne = (new DateTime('2016-12-24'))->format(self::FORMAT);
     $this->valieDateTwo = (new DateTime('2016-12-25'))->format(self::FORMAT);
     $this->dateManager = new DateManager();
-    */
-    $this->invalidOldDate = DateTime::createFromFormat(self::FORMAT,'12-24-1900');
-    $this->invalidBigDate = DateTime::createFromFormat(self::FORMAT,'12-24-3000');
-    $this->currentDate = (new DateTime())->format(self::FORMAT);
-    $this->validDateOne = DateTime::createFromFormat(self::FORMAT,'12-24-2016');
-    $this->valieDateTwo = DateTime::createFromFormat(self::FORMAT,'12-25-2016');
 
     $this->dateManager = new DateManager(self::MAXDATE, self::FORMAT);
   }
