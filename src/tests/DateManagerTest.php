@@ -18,12 +18,16 @@ class DateManagerTest extends TestCase{
   var $validDateOne;
   var $validDateTwo;
 
+  var $stringValidDateOne;
+
   public function setUp(){
     $this->invalidOldDate = DateTime::createFromFormat(self::FORMAT,'1900-12-24');
     $this->invalidBigDate = DateTime::createFromFormat(self::FORMAT,'3000-12-24');
     $this->currentDate = (new DateTime())->format(self::FORMAT);
-    $this->validDateOne = DateTime::createFromFormat(self::FORMAT,'2016-12-24');
     $this->validDateTwo = DateTime::createFromFormat(self::FORMAT,'2016-12-25');
+
+    $this->stringValidDateOne = '2016-12-24';
+    $this->validDateOne = DateTime::createFromFormat(self::FORMAT,$this->stringValidDateOne);
 
     $this->dateManager = new DateManager(self::MAXDATE, self::FORMAT);
   }
@@ -131,5 +135,10 @@ class DateManagerTest extends TestCase{
       public function testCurrentDayIsNotInInterval(){
         $result = $this->dateManager->todayIsInInterval($this->invalidOldDate, $this->invalidOldDate);
         $this->assertEquals(false,$result);
+      }
+
+      public function testDateCreation(){
+        $result = $this->dateManager->create($this->stringValidDateOne);
+        $this->assertEquals($this->validDateOne,$result);
       }
 }

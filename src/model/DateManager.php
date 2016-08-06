@@ -20,7 +20,7 @@ class DateManager{
   }
 
   function getCurrentDate(){
-    return DateTime::createFromFormat($this->format, (new DateTime())->format($this->format));
+    return $this->create((new DateTime())->format($this->format));
   }
 
   function getYesterdayDate(){
@@ -59,5 +59,9 @@ class DateManager{
 
   function todayIsInInterval($start, $final){
     return ($this->getCurrentDate() >= $start) && ($this->getCurrentDate() <= $final);
+  }
+
+  function create($stringDate){
+    return DateTime::createFromFormat($this->format,$stringDate);
   }
 }
