@@ -15,8 +15,7 @@ class DateManager{
   function __construct($maxdate = null, $format = null){
     $this->format = (is_null($format)) ? self::DEFAULT_FORMAT : $format;
     $this->max_date = (is_null($maxdate)) ?
-      DateTime::createFromFormat($this->format, self::DEFAULT_MAXDATE) :
-      DateTime::createFromFormat($this->format, $maxdate);
+      $this->create(self::DEFAULT_MAXDATE) : $this->create($maxdate);
   }
 
   function getCurrentDate(){
